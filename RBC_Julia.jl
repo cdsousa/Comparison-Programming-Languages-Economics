@@ -4,6 +4,8 @@
 # Haverford, July 29, 2013
 
 function main()
+
+    times = Any[]
     
     ##  1. Calibration
 
@@ -60,7 +62,7 @@ function main()
             # We start from previous choice (monotonicity of policy function)
             gridCapitalNextPeriod = 1
         
-            for nCapital = 1:nGridCapital
+            Δt = @elapsed for nCapital = 1:nGridCapital
         
                 valueHighSoFar = -1000.0
                 capitalChoice  = vGridCapital[1]
@@ -84,6 +86,7 @@ function main()
                 mPolicyFunction[nCapital,nProductivity] = capitalChoice
           
             end
+            push!(times, Δt)
         
         end
 
@@ -101,5 +104,8 @@ function main()
     println(" Iteration = ", iteration, " Sup Diff = ", maxDifference)
     println(" ")
     println(" My check = ", mPolicyFunction[1000,3])
+    
+    writedlm("julia_times.dat", times)
 
 end
+

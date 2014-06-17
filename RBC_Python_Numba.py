@@ -18,6 +18,8 @@ from numba import autojit
 # - mValueFunction:         float (17820 x 5)
 # - mPolicyFunction:        float (17820 x 5)
 
+times = []
+
 @autojit
 def innerloop(bbeta, nGridCapital, gridCapitalNextPeriod, mOutput, nProductivity, vGridCapital, expectedValueFunction, mValueFunction, mValueFunctionNew, mPolicyFunction):
 
@@ -105,9 +107,12 @@ def main_func():
             gridCapitalNextPeriod = 0
 
             # - Start Inner Loop - #
-
+            t1 = time.time()
+            
             mValueFunctionNew, mPolicyFunction = innerloop(bbeta, nGridCapital, gridCapitalNextPeriod, mOutput, nProductivity, vGridCapital, expectedValueFunction, mValueFunction, mValueFunctionNew, mPolicyFunction)
-
+            
+            t2 = time.time()
+            times.append(t2-t1)
             # - End Inner Loop - #
 
         maxDifference = (abs(mValueFunctionNew-mValueFunction)).max()
@@ -133,3 +138,6 @@ if __name__ == '__main__':
     print " My Check = ", mPolicyFunction[1000-1,3-1]
     print " "
     print "Elapse time = is ", t2-t1
+    
+    np.savetxt('numba_times.dat', times)
+    
