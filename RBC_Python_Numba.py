@@ -124,12 +124,17 @@ def main_func():
 if __name__ == '__main__':
     # - Start Timer - #
     t1=time.time()
-    # - Call Main Function - #
+    # - 1st Call Main Function - #
+    maxDiff, iterate, mValueF, mPolicyFunction = main_func()
+    # - Middle Timer - #
+    t2 = time.time()
+    # - 2nd Call Main Function - #
     maxDiff, iterate, mValueF, mPolicyFunction = main_func()
     # - End Timer - #
-    t2 = time.time()
+    t3 = time.time()
     print " Iteration = ", iterate, ", Sup Duff = ", maxDiff
     print " "
     print " My Check = ", mPolicyFunction[1000-1,3-1]
     print " "
-    print "Elapse time = is ", t2-t1
+    print "1st run elapse time = is ", t2-t1
+    print "2nd run elapse time = is ", t3-t2
